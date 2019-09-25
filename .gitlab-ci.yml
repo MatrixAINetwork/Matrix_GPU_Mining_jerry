@@ -1,0 +1,39 @@
+stages:
+  - PullImages
+  - KK
+before_script:
+  - tag=`date +%Y%m%d%H%M%S`
+  - echo $tag
+PullImages:
+  stage: PullImages
+  script:
+    - pwd
+    
+#KK:
+#    stage: KK
+#    scripts:
+#     - id
+#     -date 
+#    when: on_failure
+    - cd /home/shang/go-matrix
+    - git checkout sharding0401
+    - git pull 
+    - commit=`git log -1 | awk '/commit/{print $NF}'`
+    - make clean
+    - make gman
+    - cp ./build/bin/gman /home/public/wiki/dailybuild/go-matrix/sharding0401/gman-linux-$commit
+    - make clean 
+    - make gman-windows-amd64
+    - cp build/bin/gman-windows-4.0-amd64.exe /home/public/wiki/dailybuild/go-matrix/sharding0401/gman-windows-$commit.exe
+    - make clean
+    - make gman-darwin-amd64
+    - cp ./build/bin/gman-darwin-10.6-amd64 /home/public/wiki/dailybuild/go-matrix/sharding0401/gman-darwin-$commit
+#    - ssh 192.168.3.99 "docker  build -t ptone.jp/wallet:v4 . ;docker push  ptone.jp/wallet"
+#    - make
+#    - cp ./build/bin/geth /home/public/geth_backup/2geth$tag
+#    - docker tag  "registry.gitlab.com/ptminddev/website/datadeck-site/master/datadeck-site-com" "registry.gitlab.com/ptminddev/website/datadeck-site/master/datadeck-site-com:${tag}"
+#    - docker push "registry.gitlab.com/ptminddev/website/datadeck-site/master/datadeck-site-com:${tag}"
+#    - rancher --url http://192.168.3.60:8080/v1/projects/1a79 --access-key '7F741675D3D094A6A7E8' --secret-key 'WTdi6FbCP7nrQqmb6SLxPGt88ajbm5ukfZM1Aznp5' export kubernetes-ingress-lbs && cd kubernetes-ingress-lbs
+#    - rancher-compose --url http://192.168.3.60:8080/v1/projects/1a79 --access-key '7F741675D3D094A6A7E8' --secret-key 'WTdi6FbCP7nrQqmb6SLxPGt88ajbm5ukfZM1Aznp' up -d -c --force-upgrade aaa
+  only:
+    - sharding0401

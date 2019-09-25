@@ -1,0 +1,41 @@
+install openssl:  (https://blacksaildivision.com/how-to-install-openssl-on-centos)
+    sudo yum install libtool perl-core zlib-devel -y
+    curl -O -L https://github.com/openssl/openssl/archive/OpenSSL_1_1_1c.tar.gz
+    
+    tar -zxvf OpenSSL_1_1_1c.tar.gz
+    cd openssl-OpenSSL_1_1_1c
+    ./config --prefix=/usr/local/openssl --openssldir=/usr/local/openssl shared zlib
+    make
+    make test
+
+    sudo vi /etc/profile.d/openssl.sh
+    #paste there following content:
+        # /etc/profile.d/openssl.sh
+        pathmunge /usr/local/openssl/bin
+    
+    sudo vi /etc/ld.so.conf.d/openssl-1.1.1c.conf
+    #paste there following contents:
+        # /etc/ld.so/conf.d/openssl-1.1.1c.conf
+        /usr/local/openssl/lib
+    
+    sudo ldconfig -v
+    sudo cp /usr/local/openssl/lib/libcrypto.so /usr/local/openssl/lib/libssl.so /usr/lib64/
+
+isntall glibc-devel
+    sudo yum install glibc-devel
+
+install libX11-devel:
+    sudo yum install libX11-devel
+
+install gcc-c++
+    sudo yum install gcc-c++ 
+install  libjpeg
+    yum install libjpeg-turbo-devel
+
+cd gold_digger/
+make clean
+make
+
+
+
+

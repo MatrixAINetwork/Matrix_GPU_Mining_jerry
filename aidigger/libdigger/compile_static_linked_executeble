@@ -1,0 +1,24 @@
+1 install statify 
+    * download from https://github.com/greenpau/statifier
+    * in configs/config.x86_64 
+        change ELF32             := yes
+        to ELF32             := no
+    make 
+    make install
+
+2 disable ASLR in Linux (https://askubuntu.com/questions/318315/how-can-i-temporarily-disable-aslr-address-space-layout-randomization)
+    *So, to disable it, run
+
+        echo 0 | sudo tee /proc/sys/kernel/randomize_va_space    
+    
+    *This won't survive a reboot, so you'll have to configure this in sysctl. Add a file /etc/sysctl.d/01-disable-aslr.conf containing:
+
+        kernel.randomize_va_space = 0
+
+
+3 use statify to creat static-linked version of executable
+    example: 
+    
+    statifier ./bin/gold_digger ./bin/static_gold_digger
+
+Now the static_gold_digger should contain all the shared libraries.

@@ -1,0 +1,14 @@
+find . -name "*.sh" -exec chmod +x {} \;
+gcc  -Wall -Wfatal-errors -Ofast -c ./src/join_pic_detect.c -o obj/join_pic_detect.o
+gcc  -Wall -Wfatal-errors -Ofast -c ./src/additionally.c -o obj/additionally.o
+gcc  -Wall -Wfatal-errors -Ofast -c ./src/box.c -o obj/box.o
+gcc  -Wall -Wfatal-errors -Ofast -c ./src/yolov2_forward_network.c -o obj/yolov2_forward_network.o
+gcc  -Wall -Wfatal-errors -Ofast -c ./src/yolov2_forward_network_quantized.c -o obj/yolov2_forward_network_quantized.o
+gcc  -Wall -Wfatal-errors -Ofast -c ./src/print_sth.cpp -o obj/print_sth.o
+gcc  -Wall -Wfatal-errors -Ofast -c ./src/join_pics.cpp -o obj/join_pics.o
+gcc  -Wall -Wfatal-errors -Ofast -c ./src/Sha256.c -o obj/Sha256.o
+gcc  -Wall -Wfatal-errors -Ofast -c ./src/digger_interface.c -o obj/digger_interface.o
+gcc  -Wall -Wfatal-errors -Ofast -c ./src/md5.c -o obj/md5.o
+ar rcs bin/static/libgold_digger.a obj/join_pic_detect.o obj/additionally.o obj/box.o obj/yolov2_forward_network.o obj/yolov2_forward_network_quantized.o obj/print_sth.o obj/join_pics.o obj/Sha256.o obj/digger_interface.o obj/md5.o
+gcc  -Wall -Wfatal-errors -Ofast -c ./src/main.c -o obj/main.o
+gcc ./obj/main.o -L./bin/static/ -lgold_digger -o bin/gold_digger -L/usr/X11R6/lib -lm -pthread -lX11 -lssl -lcrypto -lstdc++  
