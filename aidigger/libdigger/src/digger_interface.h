@@ -6,7 +6,7 @@
 void* init_yolov3_data(const char* weight_file, const char* cfg, const char* coco_names, const char** picNames);
 
 //create a thread given rand seed, picNames, network_ptr (yolo v3 network weights)
-pthread_t creat_thread(int rand_seed, const char** picNames, void* network_ptr, int thread_count);
+pthread_t creat_thread(long rand_seed, const char** picNames, void* network_ptr, int thread_count);
 
 void cancel_thread(pthread_t thread);
 int get_result(pthread_t thread, unsigned char* result);

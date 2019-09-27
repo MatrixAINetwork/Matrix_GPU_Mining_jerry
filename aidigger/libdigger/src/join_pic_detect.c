@@ -118,7 +118,7 @@ void report_detection(image im, detection *dets, int num, float thresh, char **n
     logm(SL4C_DEBUG,"%s converting the resutls to 512bits data\n", filename);
     for (i = 0; i < selected_detections_num && i < 4; ++i) {
         const int best_class = selected_detections[i].best_class;
-        logm(SL4C_DEBUG,"%s, %s: %.0f%%\n", filename, names[best_class], selected_detections[i].det.prob[best_class] * 100);
+        logm(SL4C_DEBUG,"%s, %s: %.5f%%\n", filename, names[best_class], selected_detections[i].det.prob[best_class] * 100);
 
         //set result 512 bits
         if(result_memcpy_ptr + sizeof(names[best_class]) < 64){
@@ -127,9 +127,9 @@ void report_detection(image im, detection *dets, int num, float thresh, char **n
 
         }
         //for the sake of getting same result on both CPU and GPU, convert the probability from float into int
-        //the first 4 digits of float are preserved
+        //the first 2 digits of float are preserved
         if(result_memcpy_ptr + sizeof(float) < 64){
-            int prob_int = (selected_detections[i].det.prob[best_class]) * 10000;
+            int prob_int = (selected_detections[i].det.prob[best_class]) * 100;
             memcpy(result_512bits + result_memcpy_ptr, &(prob_int), sizeof(int));
             result_memcpy_ptr += sizeof(int);
         }
@@ -1016,14 +1016,16 @@ void run_test_detector(char* filename,char* obj_names, int dont_show, float thre
 
 
 
-int join_pic_detect(int rand_seed, const char** picNames,unsigned char* result, void* network_ptr, unsigned long thread){
+int join_pic_detect(long rand_seed, const char** picNames,unsigned char* result, void* network_ptr, unsigned long thread){
     //logm(SL4C_DEBUG,"rand seed in join_pic_detect is %d\n", rand_seed);
     //int join_succeed = join_pics(rand_seed, PIC_SIZE_X,PIC_SIZE_Y, DIVIDE_X, DIVIDE_Y, PICS_PATH, JOIN_PIC_NAME);
     char joinPicName[256];    
     char buffer[sizeof(unsigned long)*8+1];
     const char* appendix = JOIN_PIC_NAME_APPENDIX;
     //sprintf(buffer, "%lu", thread);  
-    sprintf(buffer, "%d", rand_seed);  
+    logm(SL4C_DEBUG,"rand seed %ld\n",rand_seed);
+    //enter_to_continue();
+    sprintf(buffer, "%ld", rand_seed);  
     strcpy(joinPicName,buffer);  
     strcat(joinPicName,appendix); 
     //logm(SL4C_DEBUG,"join pic name is %s\n", joinPicName);

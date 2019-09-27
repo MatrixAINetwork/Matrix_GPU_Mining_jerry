@@ -57,7 +57,7 @@ func Init(cfgPath string, pictures []string) {
 }
 
 func AIDigging(seed int64, pictures []string, stopCh chan struct{}, resultCh chan []byte, errCh chan error) {
-	cSeed := (C.int)(seed)
+	cSeed := (C.long)(seed)
 	cPictures := make([]*C.char, 0)
 	for i := range pictures {
 		char := C.CString(pictures[i])

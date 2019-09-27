@@ -39,25 +39,40 @@ int numberInArray(int a[], int arraysize,int number){
 }
 
 
+int rand_test(long int i){
+    srand(i);
+    int a = rand()%100;
+    printf("when %ld as seed, result is %d\n",i, a);
+    return 0;
+}
+
 
 int main(int argc, char **argv){  
     // test();
+    // // return 0;
+    // long a = 1206571237152942271;
+    // rand_test(a);
     // return 0;
-    
+
     srand(0);
     if(argc < 2){
         fprintf("usage: %s <function>, rand_seed\n", argv[0]);
         return 0;
     }
     //sclog4c_level = SL4C_ALL;
-    int rand_seed = strtol(argv[1], NULL, 10);   
+    //int rand_seed = strtol(argv[1], NULL, 10);   
+    long rand_seed = 1206571237152942270;
     // logm(SL4C_DEBUG,"Program name: %s, %d", argv[0], rand_seed);
     // logm(SL4C_DEBUG,"logging sth\n");
     // return 0;
 
-    const char* picNames[] = {"./16_testPics/00d66ed55093c3bf.jpg",  "./16_testPics/0222359686b52503.jpg",  "./16_testPics/03b34394c4fae1d2.jpg",  "./16_testPics/0574623c2473a463.jpg",  "./16_testPics/076c438efda49fac.jpg"  ,"./16_testPics/0973221d1bc979c1.jpg",  "./16_testPics/0b96750f7bfbef43.jpg",  "./16_testPics/0dc5f1cf71842cbe.jpg",
-"./16_testPics/00d67ab9e6db2059.jpg",  "./16_testPics/0222397d2ce9241e.jpg",  "./16_testPics/03b351e2faa608fe.jpg",  "./16_testPics/057463e74cc756bd.jpg",  "./16_testPics/076c44dc65599558.jpg",  "./16_testPics/097335b71ef0ebca.jpg",  "./16_testPics/0b967884421ea018.jpg",  "./16_testPics/0dc6006b96ae1213.jpg"
+//     const char* picNames[] = {"./16_testPics/00d66ed55093c3bf.jpg",  "./16_testPics/0222359686b52503.jpg",  "./16_testPics/03b34394c4fae1d2.jpg",  "./16_testPics/0574623c2473a463.jpg",  "./16_testPics/076c438efda49fac.jpg"  ,"./16_testPics/0973221d1bc979c1.jpg",  "./16_testPics/0b96750f7bfbef43.jpg",  "./16_testPics/0dc5f1cf71842cbe.jpg",
+// "./16_testPics/00d67ab9e6db2059.jpg",  "./16_testPics/0222397d2ce9241e.jpg",  "./16_testPics/03b351e2faa608fe.jpg",  "./16_testPics/057463e74cc756bd.jpg",  "./16_testPics/076c44dc65599558.jpg",  "./16_testPics/097335b71ef0ebca.jpg",  "./16_testPics/0b967884421ea018.jpg",  "./16_testPics/0dc6006b96ae1213.jpg"
+// };
+
+    const char* picNames[] = {"./pic_diff_cpu_gpu/test_0.jpg", "./pic_diff_cpu_gpu/test_1.jpg","./pic_diff_cpu_gpu/test_2.jpg","./pic_diff_cpu_gpu/test_3.jpg","./pic_diff_cpu_gpu/test_4.jpg","./pic_diff_cpu_gpu/test_5.jpg","./pic_diff_cpu_gpu/test_6.jpg","./pic_diff_cpu_gpu/test_7.jpg","./pic_diff_cpu_gpu/test_8.jpg","./pic_diff_cpu_gpu/test_9.jpg","./pic_diff_cpu_gpu/test_10.jpg","./pic_diff_cpu_gpu/test_11.jpg","./pic_diff_cpu_gpu/test_12.jpg","./pic_diff_cpu_gpu/test_13.jpg","./pic_diff_cpu_gpu/test_14.jpg","./pic_diff_cpu_gpu/test_15.jpg"
 };
+
     void* network_ptr = init_yolov3_data("yolov3.weights","yolov3.cfg", "coco.names", picNames);
   
     logm(SL4C_DEBUG,"finished loading network and loading 16 images. Now lets detect\n");
@@ -67,7 +82,7 @@ int main(int argc, char **argv){
     // }
     //return 0;
 
-    #define total_threads  1000
+    #define total_threads  1
     unsigned long threads[total_threads];
     int got_results[total_threads];
     
@@ -100,7 +115,7 @@ int main(int argc, char **argv){
             
 
         logm(SL4C_DEBUG,"creating a thread %d\n", thread_count);
-        int rand_num = rand_seed + thread_count;
+        long rand_num = rand_seed + thread_count;
         unsigned long thread = creat_thread(rand_num, picNames,network_ptr,thread_count);
         if (thread > 0){
             //enter_to_continue();

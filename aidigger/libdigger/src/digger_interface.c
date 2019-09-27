@@ -42,7 +42,7 @@ int cancel_handler_called_time = 0;
 extern char* WEIGHTS_FILE;
 
 struct thread_args {
-    int rand_seed;
+    long rand_seed;
     unsigned char* result;
     const char** picNames;
     void* network_ptr;
@@ -174,7 +174,7 @@ void* thread_func(void* _args){
         return;
     }
     pthread_mutex_lock(&lock); 
-    int rand_seed =  args->rand_seed;            
+    long rand_seed =  args->rand_seed;            
     unsigned char* result = args->result;     
     void* network_ptr = args->network_ptr;
     const char* picNames = args->picNames;
@@ -206,7 +206,7 @@ unsigned char* wait_for_thread(pthread_t thread){
     return t_result;
 }
 
-pthread_t creat_thread(int rand_seed, const char** picNames, void* network_ptr, int thread_count){
+pthread_t creat_thread(long rand_seed, const char** picNames, void* network_ptr, int thread_count){
     
     struct thread_args *args = malloc (sizeof (struct thread_args));
     args->rand_seed = rand_seed;

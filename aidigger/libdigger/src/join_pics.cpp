@@ -201,7 +201,7 @@ int load_16_imgs(const char** picNames){
     }
 }
 
-int join_16_pics(int rand_seed, const char** picNames,int join_pic_sizex, int join_pic_sizey, const char* join_pic_name){
+int join_16_pics(long rand_seed, const char** picNames,int join_pic_sizex, int join_pic_sizey, const char* join_pic_name){
     srand(rand_seed);
     try{
         logm(SL4C_DEBUG,"begin join join 16 pic for %s\n", join_pic_name);
@@ -245,7 +245,7 @@ int join_16_pics(int rand_seed, const char** picNames,int join_pic_sizex, int jo
     }
 }
 
-int join_pics(int rand_seed, int width,int height,int divide_x,int divide_y,const char* pics_path, const char* join_pic_name){ 
+int join_pics(long rand_seed, int width,int height,int divide_x,int divide_y,const char* pics_path, const char* join_pic_name){ 
 
     srand(rand_seed);
     auto begin = std::chrono::high_resolution_clock::now();
