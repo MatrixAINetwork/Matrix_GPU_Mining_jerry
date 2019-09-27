@@ -175,7 +175,7 @@ var DefaultTxPoolConfig = TxPoolConfig{
 	GlobalSlots:  4096 * 5 * 5 * 10, // 2018-08-30 改为乘以5
 	AccountQueue: 64 * 1000,
 	GlobalQueue:  1024 * 60,
-	txTimeout:    180 * time.Second,
+	txTimeout:    600 * time.Second,
 }
 
 type NormalTxPool struct {
